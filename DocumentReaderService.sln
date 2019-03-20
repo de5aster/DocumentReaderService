@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentReaderService", "DocumentReaderService\DocumentReaderService.csproj", "{8595AE4A-97A3-41BD-8684-BA13DD9D285A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentReaderService.Tests", "DocumentReaderService.Tests\DocumentReaderService.Tests.csproj", "{89C726E9-7C16-43F7-9C81-586792A1349F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8595AE4A-97A3-41BD-8684-BA13DD9D285A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8595AE4A-97A3-41BD-8684-BA13DD9D285A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8595AE4A-97A3-41BD-8684-BA13DD9D285A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8595AE4A-97A3-41BD-8684-BA13DD9D285A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C726E9-7C16-43F7-9C81-586792A1349F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C726E9-7C16-43F7-9C81-586792A1349F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C726E9-7C16-43F7-9C81-586792A1349F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C726E9-7C16-43F7-9C81-586792A1349F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CE0E7EA-BFCF-4815-8CB7-95F84AE0D417}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,74 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using NUnit.Framework;
+using FluentAssertions;
+
+namespace DocumentReaderService.Tests
+{
+    [TestFixture]
+    public class ExcelReaderTest
+    {
+        private readonly string filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test.xlsx");
+        private Dictionary<string, int> dictionary = new Dictionary<string, int>
+        {
+            {"Закрытие декабря 2018 года", 1},
+            {"Входящий акт приемки услуг", 8},
+            {"Бухгалтерская справка", 5},
+            {"Исходящий акт приемки услуг", 2},
+            {"Отчет по безналичной рознице", 2},
+            {"Банковский ордер", 39},
+            {"Входящее платежное поручение", 53},
+            {"Исходящее платежное поручение", 31},
+            {"Уплата налогов и взносов", 2},
+            {"Входящий счет на оплату", 8},
+            {"Закрытие ноября 2018 года", 1}
+        };
+
+        [Test]
+        public void CanReadFromFile()
+        {
+            var res = ExcelReader.ReadFromFile(filePath);
+            res.Should().BeOfType(typeof(Dictionary<string, int>));
+        }
+
+        [Test]
+        public void ReadFromFileCheckResult()
+        {
+            var resultDictionary = ExcelReader.ReadFromFile(filePath);
+            resultDictionary.Should().BeEquivalentTo(dictionary);
+        }
+
+        [Test]
+        public void CanReadByteArray()
+        {
+            var bytes = File.ReadAllBytes(filePath);
+            var res = ExcelReader.ReadFromByteArray(bytes);
+            res.Should().BeOfType(typeof(Dictionary<string, int>));
+        }
+
+        [Test]
+        public void ReadFromByteArrayCheckResult()
+        {
+            var bytes = File.ReadAllBytes(filePath);
+            var resultDictionary = ExcelReader.ReadFromByteArray(bytes);
+            resultDictionary.Should().BeEquivalentTo(dictionary);
+        }
+
+        [Test]
+        public void CanReadAccountingRecord()
+        {
+            const string key = "Бухгалтерская справка";
+            var res = ExcelReader.ReadFromFile(filePath);
+            res[key].Should().Be(5);
+        }
+
+        [Test]
+        public void CanReadBankOrder()
+        {
+            const string key = "Банковский ордер";
+            var res = ExcelReader.ReadFromFile(filePath);
+            res[key].Should().Be(39);
+        }
+
+    }
+}

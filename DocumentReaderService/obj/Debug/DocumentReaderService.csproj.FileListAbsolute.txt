@@ -1,0 +1,8 @@
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\bin\Debug\DocumentReaderService.dll
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\bin\Debug\DocumentReaderService.pdb
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\bin\Debug\EPPlus.dll
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\bin\Debug\EPPlus.xml
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\obj\Debug\DocumentReaderService.csprojResolveAssemblyReference.cache
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\obj\Debug\DocumentReaderService.csproj.CoreCompileInputs.cache
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\obj\Debug\DocumentReaderService.dll
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService\obj\Debug\DocumentReaderService.pdb
