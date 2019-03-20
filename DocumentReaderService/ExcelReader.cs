@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OfficeOpenXml;
-
 
 namespace DocumentReaderService
 {
@@ -31,7 +26,6 @@ namespace DocumentReaderService
             {
                 return GetDocumentCount(package);
             }
-
         }
 
         private static IDictionary<string, int> GetDocumentCount(ExcelPackage package)

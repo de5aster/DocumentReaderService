@@ -9,7 +9,7 @@ namespace DocumentReaderService.Tests
     public class ExcelReaderTest
     {
         private readonly string filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test.xlsx");
-        private Dictionary<string, int> dictionary = new Dictionary<string, int>
+        private readonly Dictionary<string, int> dictionary = new Dictionary<string, int>
         {
             {"Закрытие декабря 2018 года", 1},
             {"Входящий акт приемки услуг", 8},
@@ -53,22 +53,5 @@ namespace DocumentReaderService.Tests
             var resultDictionary = ExcelReader.ReadFromByteArray(bytes);
             resultDictionary.Should().BeEquivalentTo(dictionary);
         }
-
-        [Test]
-        public void CanReadAccountingRecord()
-        {
-            const string key = "Бухгалтерская справка";
-            var res = ExcelReader.ReadFromFile(filePath);
-            res[key].Should().Be(5);
-        }
-
-        [Test]
-        public void CanReadBankOrder()
-        {
-            const string key = "Банковский ордер";
-            var res = ExcelReader.ReadFromFile(filePath);
-            res[key].Should().Be(39);
-        }
-
     }
 }
