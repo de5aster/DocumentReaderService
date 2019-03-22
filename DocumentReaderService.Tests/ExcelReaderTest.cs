@@ -64,5 +64,24 @@ namespace DocumentReaderService.Tests
             act.Should().Throw<ExceptionExcelReader>()
                 .WithMessage("Invalid file format");
         }
+
+        [Test]
+        public void InvalidFormatThrowExceptionExcelReader()
+        {
+            var invalidFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test.txt");
+            Action act = () => ExcelReader.ReadFromFile(invalidFilePath);
+            act.Should().Throw<ExceptionExcelReader>()
+                .WithMessage("File format isn't *.xlsx");
+        }
+
+        [Test]
+        public void InvalidFormatThrowExceptionExcelReaderWithByteArray()
+        {
+            var invalidFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test.txt");
+            var bytes = File.ReadAllBytes(invalidFilePath);
+            Action act = () => ExcelReader.ReadFromByteArray(bytes);
+            act.Should().Throw<ExceptionExcelReader>()
+                .WithMessage("File format isn't *.xlsx");
+        }
     }
 }

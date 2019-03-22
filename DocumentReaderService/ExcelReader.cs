@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using DocumentReaderService.Exceptions;
 using OfficeOpenXml;
@@ -8,25 +7,40 @@ namespace DocumentReaderService
 {
     public class ExcelReader
     {
+        public static IDictionary<string, int> ResultDict { get; set; }
+
         private const int DocColumn = 3;
         private const int OperationColumn = 4;
-        public static IDictionary<string, int> ResultDict { get; set; }
 
         public static IDictionary<string, int> ReadFromFile(string filePath)
         {
             var existingFile = new FileInfo(filePath);
-            using (var package = new ExcelPackage(existingFile))
+            try
             {
-                return GetDocumentCount(package);
+                using (var package = new ExcelPackage(existingFile))
+                {
+                    return GetDocumentCount(package);
+                }
+            }
+            catch (InvalidDataException)
+            {
+                throw new ExceptionExcelReader("File format isn't *.xlsx");
             }
         }
 
         public static IDictionary<string, int> ReadFromByteArray(byte[] bytes)
         {
             var ms = new MemoryStream(bytes);
-            using (var package = new ExcelPackage(ms))
+            try
             {
-                return GetDocumentCount(package);
+                using (var package = new ExcelPackage(ms))
+                {
+                    return GetDocumentCount(package);
+                }
+            }
+            catch (InvalidDataException)
+            {
+                throw new ExceptionExcelReader("File format isn't *.xlsx");
             }
         }
 
@@ -77,12 +91,7 @@ namespace DocumentReaderService
             const string headerOperation = "операция";
             var docColumnHeader = GetCellValue(worksheet, headerRow, DocColumn).ToString().ToLower();
             var operationColumnHeader = GetCellValue(worksheet, headerRow, OperationColumn).ToString().ToLower();
-            if ( docColumnHeader == headerDocument)
-            {
-                return true;
-            }
-
-            if (operationColumnHeader == headerOperation)
+            if ( docColumnHeader == headerDocument && operationColumnHeader == headerOperation)
             {
                 return true;
             }
