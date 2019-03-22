@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using DocumentReaderService.Exceptions;
 using OfficeOpenXml;
 
 namespace DocumentReaderService
@@ -33,6 +35,10 @@ namespace DocumentReaderService
             var worksheet = package.Workbook.Worksheets[1];
             var endRow = worksheet.Dimension.End.Row;
             ResultDict = new Dictionary<string, int>();
+            if (!CheckFormat(worksheet))
+            {
+                throw new ExceptionExcelReader("Invalid file format");
+            }
             for (var row = 6; row <= endRow; row++)
             {
                 var documentDescription = GetCellValue(worksheet, row, DocColumn).ToString();
@@ -46,7 +52,9 @@ namespace DocumentReaderService
         private static void AddToDictionary(IDictionary<string, int> dict, string documentDescription, string operationDescription)
         {
             if (operationDescription == "не проведен") return;
+
             if (string.IsNullOrEmpty(documentDescription)) return;
+
             if (dict.ContainsKey(documentDescription))
             {
                 dict[documentDescription]++;
@@ -60,6 +68,26 @@ namespace DocumentReaderService
         private static object GetCellValue(ExcelWorksheet worksheet, int row, int cell)
         {
             return worksheet.Cells[row, cell].Value ?? "";
+        }
+
+        private static bool CheckFormat(ExcelWorksheet worksheet)
+        {
+            const int headerRow = 5;
+            const string headerDocument = "документ";
+            const string headerOperation = "операция";
+            var docColumnHeader = GetCellValue(worksheet, headerRow, DocColumn).ToString().ToLower();
+            var operationColumnHeader = GetCellValue(worksheet, headerRow, OperationColumn).ToString().ToLower();
+            if ( docColumnHeader == headerDocument)
+            {
+                return true;
+            }
+
+            if (operationColumnHeader == headerOperation)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

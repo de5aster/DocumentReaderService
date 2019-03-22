@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using DocumentReaderService.Exceptions;
 using NUnit.Framework;
 using FluentAssertions;
 
@@ -52,6 +54,15 @@ namespace DocumentReaderService.Tests
             var bytes = File.ReadAllBytes(filePath);
             var resultDictionary = ExcelReader.ReadFromByteArray(bytes);
             resultDictionary.Should().BeEquivalentTo(dictionary);
+        }
+
+        [Test]
+        public void CanThrowExceptionExcelReader()
+        {
+            var invalidFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\invalid_format.xlsx");
+            Action act = () => ExcelReader.ReadFromFile(invalidFilePath);
+            act.Should().Throw<ExceptionExcelReader>()
+                .WithMessage("Invalid file format");
         }
     }
 }
