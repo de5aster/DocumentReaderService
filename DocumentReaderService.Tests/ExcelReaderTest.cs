@@ -10,7 +10,8 @@ namespace DocumentReaderService.Tests
     [TestFixture]
     public class ExcelReaderTest
     {
-        private readonly string filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test.xlsx");
+        private readonly string evrikaFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test.xlsx");
+        private readonly string freshFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestHelpers\\test2.xlsx");
         private readonly Dictionary<string, int> dictionary = new Dictionary<string, int>
         {
             {"Закрытие декабря 2018 года", 1},
@@ -27,23 +28,31 @@ namespace DocumentReaderService.Tests
         };
 
         [Test]
-        public void CanReadFromFile()
+        public void CanReadFromEvrikaFile()
         {
-            var res = ExcelReader.ReadFromFile(filePath);
+            var res = ExcelReader.ReadFromFile(evrikaFilePath);
+            res.Should().BeOfType(typeof(Dictionary<string, int>));
+        }
+
+
+        [Test]
+        public void CanReadFromFreshFile()
+        {
+            var res = ExcelReader.ReadFromFile(freshFilePath);
             res.Should().BeOfType(typeof(Dictionary<string, int>));
         }
 
         [Test]
         public void ReadFromFileCheckResult()
         {
-            var resultDictionary = ExcelReader.ReadFromFile(filePath);
+            var resultDictionary = ExcelReader.ReadFromFile(evrikaFilePath);
             resultDictionary.Should().BeEquivalentTo(dictionary);
         }
 
         [Test]
         public void CanReadByteArray()
         {
-            var bytes = File.ReadAllBytes(filePath);
+            var bytes = File.ReadAllBytes(evrikaFilePath);
             var res = ExcelReader.ReadFromByteArray(bytes);
             res.Should().BeOfType(typeof(Dictionary<string, int>));
         }
@@ -51,7 +60,7 @@ namespace DocumentReaderService.Tests
         [Test]
         public void ReadFromByteArrayCheckResult()
         {
-            var bytes = File.ReadAllBytes(filePath);
+            var bytes = File.ReadAllBytes(evrikaFilePath);
             var resultDictionary = ExcelReader.ReadFromByteArray(bytes);
             resultDictionary.Should().BeEquivalentTo(dictionary);
         }
@@ -83,5 +92,6 @@ namespace DocumentReaderService.Tests
             act.Should().Throw<ExceptionExcelReader>()
                 .WithMessage("File format isn't *.xlsx");
         }
+
     }
 }

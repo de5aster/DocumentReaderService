@@ -28,3 +28,4 @@ c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService.Te
 c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService.Tests\bin\Debug\EPPlus.xml
 c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService.Tests\bin\Debug\TestHelpers\invalid_format.xlsx
 c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService.Tests\bin\Debug\TestHelpers\test.txt
+c:\users\kalistratov\source\repos\DocumentReaderService\DocumentReaderService.Tests\bin\Debug\TestHelpers\test2.xlsx
