@@ -33,8 +33,7 @@ namespace DocumentReaderService.Tests
             var res = ExcelReader.ReadFromFile(evrikaFilePath);
             res.Should().BeOfType(typeof(Dictionary<string, int>));
         }
-
-
+        
         [Test]
         public void CanReadFromFreshFile()
         {

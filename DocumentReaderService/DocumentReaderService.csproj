@@ -50,6 +50,8 @@
     <Compile Include="ExcelReader.cs" />
     <Compile Include="Exceptions\ExceptionExcelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\FileStructure.cs" />
+    <Compile Include="Settings\FileStructureList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

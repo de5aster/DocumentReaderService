@@ -2,20 +2,12 @@
 using System.IO;
 using DocumentReaderService.Exceptions;
 using OfficeOpenXml;
+using DocumentReaderService.Settings;
 
 namespace DocumentReaderService
 {
     public class ExcelReader
     {
-        public static IDictionary<string, int> ResultDict { get; set; }
-
-        private const int EvrikaDocColumn = 3;
-        private const int EvrikaOperationColumn = 4;
-        private const int EvrikaStartRow = 6;
-        private const int FreshDocColumn = 3;
-        private const int FreshOperationColumn = 7;
-        private const int FreshStartRow = 2;
-
         public static IDictionary<string, int> ReadFromFile(string filePath)
         {
             var existingFile = new FileInfo(filePath);
@@ -52,27 +44,27 @@ namespace DocumentReaderService
         {
             var worksheet = package.Workbook.Worksheets[1];           
 
-            if (CheckEvrikaFormat(worksheet))
+            if (CheckFormat(worksheet, FileStructureList.Evrika))
             {
-                return GetDocuments(worksheet, EvrikaStartRow, EvrikaDocColumn, EvrikaOperationColumn);
+                return GetDocuments(worksheet, FileStructureList.Evrika);
             }
 
-            if (CheckFreshFormat(worksheet))
+            if (CheckFormat(worksheet, FileStructureList.Fresh))
             {
-                return GetDocuments(worksheet, FreshStartRow, FreshDocColumn, FreshOperationColumn);
+                return GetDocuments(worksheet, FileStructureList.Fresh);
             }
 
             throw new ExceptionExcelReader("Invalid file format");
         }
 
-        private static IDictionary<string, int> GetDocuments(ExcelWorksheet worksheet, int startRow, int docColumn, int operationColumn)
+        private static IDictionary<string, int> GetDocuments(ExcelWorksheet worksheet, FileStructure fs)
         {
             var resultDict = new Dictionary<string, int>();
             var endRow = worksheet.Dimension.End.Row;
-            for (var row = startRow; row <= endRow; row++)
+            for (var row = fs.StartRow; row <= endRow; row++)
             {
-                var documentDescription = GetCellValue(worksheet, row, docColumn).ToString();
-                var operationDescription = GetCellValue(worksheet, row, operationColumn).ToString().ToLower();
+                var documentDescription = GetCellValue(worksheet, row, fs.DocumentColumn).ToString();
+                var operationDescription = GetCellValue(worksheet, row,fs.OperationColumn).ToString().ToLower();
                 AddToDictionary(resultDict, documentDescription, operationDescription);
             }
 
@@ -94,35 +86,12 @@ namespace DocumentReaderService
                 dict.Add(documentDescription, 1);
             }
         }
-        
-        /// <summary>
-        /// Check the structure of the downloaded file. Int and headers parameters are set independently.
-        /// </summary>
-        /// <param name="worksheet"></param>
-        /// <returns></returns>
-        private static bool CheckEvrikaFormat(ExcelWorksheet worksheet)
-        {
-            const int headerRow = 5;
-            const string headerDocument = "документ";
-            const string headerOperation = "операция";
-            var docColumnHeader = GetCellValue(worksheet, headerRow, EvrikaDocColumn).ToString().ToLower();
-            var operationColumnHeader = GetCellValue(worksheet, headerRow, EvrikaOperationColumn).ToString().ToLower();
-            if ( docColumnHeader == headerDocument && operationColumnHeader == headerOperation)
-            {
-                return true;
-            }
 
-            return false;
-        }
-
-        private static bool CheckFreshFormat(ExcelWorksheet worksheet)
-        {
-            const int headerRow = 1;
-            const string headerDocument = "тип документа";
-            const string headerOperation = "вид операции";
-            var docColumnHeader = GetCellValue(worksheet, headerRow, FreshDocColumn).ToString().ToLower();
-            var operationColumnHeader = GetCellValue(worksheet, headerRow, FreshOperationColumn).ToString().ToLower();
-            if (docColumnHeader == headerDocument && operationColumnHeader == headerOperation)
+        private static bool CheckFormat(ExcelWorksheet worksheet, FileStructure fs)
+        {            
+            var docColumnHeader = GetCellValue(worksheet, fs.HeaderRow, fs.DocumentColumn).ToString().ToLower();
+            var operationColumnHeader = GetCellValue(worksheet, fs.HeaderRow, fs.OperationColumn).ToString().ToLower();
+            if (docColumnHeader == fs.HeaderDocumentName && operationColumnHeader == fs.HeaderOperationName)
             {
                 return true;
             }
