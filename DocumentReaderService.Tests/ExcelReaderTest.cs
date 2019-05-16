@@ -91,6 +91,5 @@ namespace DocumentReaderService.Tests
             act.Should().Throw<ExceptionExcelReader>()
                 .WithMessage("File format isn't *.xlsx");
         }
-
     }
 }
